@@ -23,3 +23,16 @@
 - Seat selection with real-time availability updates  
 - Secure ticket booking  
 - Admin panel to manage movies, showtimes, and bookings  
+
+---
+
+## 🖼️ Screenshots
+
+### Home Page  
+![Home](screenshots/home.png)  
+
+### Admin Dashboard  
+![Admin](screenshots/admin.png)  
+
+### Booking Page  
+![Booking](screenshots/booking.png)  
