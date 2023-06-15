@@ -42,6 +42,7 @@ import MovieSelectPage from "./pages/MovieShowtimesPage";
 import MovieShowtimesPage from "./pages/MovieShowtimesPage";
 import AdminListBookings from "./admin/pages/AdminListBookings";
 import "./utils/refreshToken";
+import { config } from "./config";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -101,32 +102,32 @@ const App = () => {
     const fetchData = async () => {
       try {
         const movieResponse = await axios.get(
-          "http://localhost:8080/api/movie"
+          `${config.serverUrl}/movie`
         );
         dispatch(fetchAllMovies(movieResponse.data));
 
         const theaterResponse = await axios.get(
-          "http://localhost:8080/api/theater"
+          `${config.serverUrl}/theater`
         );
         dispatch(toFetchTheaters(theaterResponse.data));
 
         const screenResponse = await axios.get(
-          "http://localhost:8080/api/screen"
+          `${config.serverUrl}/screen`
         );
         dispatch(toFetchScreens(screenResponse.data));
 
         // Initial fetch of first page of showtimes
         const showtimeResponse = await axios.get(
-          "http://localhost:8080/api/showtime?page=1&limit=10"
+          `${config.serverUrl}/showtime?page=1&limit=10`
         );
         dispatch(toFetchShowtimes(showtimeResponse.data));
       } catch (error) {
-        toast.error(error.response?.data?.message || error.message);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

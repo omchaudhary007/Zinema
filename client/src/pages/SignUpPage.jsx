@@ -26,7 +26,7 @@ const SignUpPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/signUp",
+        `${import.meta.env.SERVER_URL}/auth/signUp`,
         formData
       );
 

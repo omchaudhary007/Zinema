@@ -99,7 +99,7 @@ const CheckoutPage = () => {
     try {
       // First update the booked seats
       await axios.put(
-        `http://localhost:8080/api/showtime/${showtime._id}/book-seats`,
+        `${import.meta.env.SERVER_URL}/showtime/${showtime._id}/book-seats`,
         { seats: booked.selectedSeats },
         {
           headers: {

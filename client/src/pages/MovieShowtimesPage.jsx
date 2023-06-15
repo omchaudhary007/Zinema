@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { toFetchShowtimes, setLoading, setError } from "../store/showtimeSlice";
 import { toast } from "react-toastify";
+import { config } from "../config";
 
 const MovieShowtimesPage = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const MovieShowtimesPage = () => {
     try {
       dispatch(setLoading());
       const response = await axios.get(
-        `http://localhost:8080/api/showtime?movieId=${id}`
+        `${config.serverUrl}/showtime?movieId=${id}`
       );
       dispatch(toFetchShowtimes(response.data));
     } catch (error) {
@@ -37,6 +38,10 @@ const MovieShowtimesPage = () => {
   }, [id]);
 
   const groupShowtimes = (showtimes) => {
+    if (!showtimes || !Array.isArray(showtimes)) {
+      return [];
+    }
+
     const grouped = {};
     const today = new Date().toISOString().split('T')[0];
 

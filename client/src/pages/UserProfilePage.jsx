@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { config } from "../config";
 
 const UserProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -12,28 +13,34 @@ const UserProfilePage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const [profileRes, bookingsRes] = await Promise.all([
-          axios.get("http://localhost:8080/api/user/profile", {
-            headers: { Authorization: `Bearer ${accessToken}` }
-          }),
-          axios.get("http://localhost:8080/api/user/bookings", {
-            headers: { Authorization: `Bearer ${accessToken}` }
-          })
-        ]);
+        const profileResponse = await axios.get(
+          `${config.serverUrl}/user/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        setUser(profileResponse.data);
 
-        setUser(profileRes.data);
-        setBookings(bookingsRes.data);
+        const bookingsResponse = await axios.get(
+          `${config.serverUrl}/user/bookings`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
+        setBookings(bookingsResponse.data);
       } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to fetch user data");
+        toast.error(error.response?.data?.message || error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    if (accessToken) {
-      fetchUserData();
-    }
-  }, [accessToken]);
+    fetchUserData();
+  }, []);
 
   if (loading) {
     return (

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { authLogin, authLogout } from '../store/storageSlice';
 import { store } from '../store';
+import { config } from '../config';
 
 let isRefreshing = false;
 let failedQueue = [];
@@ -18,7 +19,7 @@ const processQueue = (error, token = null) => {
 
 const refreshToken = async (refreshToken) => {
   try {
-    const response = await axios.post('http://localhost:8080/api/auth/refresh-token', {
+    const response = await axios.post(`${config.serverUrl}/auth/refresh-token`, {
       refreshToken
     });
 

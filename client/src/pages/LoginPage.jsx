@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { authLogin } from "../store/storageSlice";
+import { config } from "../config";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const LoginPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        `${config.serverUrl}/auth/login`,
         formData
       );
 
